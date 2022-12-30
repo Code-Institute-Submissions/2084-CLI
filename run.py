@@ -1,3 +1,5 @@
+import random
+
 array = [
     [0, 0, 0, 0],
     [2, 2, 2, 0],
@@ -24,3 +26,10 @@ def get_free_cells(grid):
                 free_cells.append([row_count, index_count])
     
     return(free_cells)
+
+def get_random_free_cell(grid):
+    free_cells = get_free_cells(grid)
+    print(free_cells)
+    random_free_cell = random.choice(free_cells)
+
+    print(random_free_cell)
