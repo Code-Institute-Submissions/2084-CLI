@@ -1,15 +1,5 @@
 import random
 
-array = [
-    [0, 0, 0, 2],
-    [0, 0, 0, 2],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-]
-
-for row in array:
-    print(row[0], row[1], row[2], row[3])
-
 def is_cell_free(grid, row, cell):
     return grid[row][cell] == 0
 
@@ -37,7 +27,18 @@ def place_random_number(grid):
 
     array[random_cell[0]][random_cell[1]] = 2
 
-place_random_number(array)
+array = [
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 2, 0],
+    [0, 0, 0, 0],
+]
+
+# place_random_number(array)
+
+for row in array:
+    print(row[0], row[1], row[2], row[3])
+print('---------')
 
 #Move Up Functionality
 def get_columns_top_empty_cell(grid, row_index, cell_index):
@@ -47,9 +48,19 @@ def get_columns_top_empty_cell(grid, row_index, cell_index):
             break
         # next, if its any row, and any cell above is full, return index before full cell
         elif is_cell_free(grid, x - 1, cell_index) is False:
-            return('2', [x, cell_index])
+            return([x, cell_index])
             break
         # next, if its any row, and above cell is (empty && row 1) -> return row 1 index
         elif is_cell_free(grid, x, cell_index) and x == 1:
-            return('3', [x - 1, cell_index])
+            return([x - 1, cell_index])
             break
+
+
+def move_cell_up(grid, row_index, cell_index):
+    target_index = get_columns_top_empty_cell(grid, row_index, cell_index)
+    cell_value = grid[row_index][cell_index]
+
+    array[int(target_index[0])][cell_index] = cell_value
+
+    if row_index != target_index[0]:
+        array[row_index][cell_index] = 0
