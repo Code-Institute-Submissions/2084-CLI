@@ -1,8 +1,8 @@
 import random
 
 array = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
+    [0, 0, 0, 2],
+    [0, 0, 0, 2],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
 ]
@@ -38,3 +38,18 @@ def place_random_number(grid):
     array[random_cell[0]][random_cell[1]] = 2
 
 place_random_number(array)
+
+#Move Up Functionality
+def get_columns_top_empty_cell(grid, row_index, cell_index):
+    for x in reversed(range(row_index + 1)):
+        if row_index == 0 and is_cell_free(grid, x, cell_index):
+            return('1', [row_index, cell_index])
+            break
+        # next, if its any row, and any cell above is full, return index before full cell
+        elif is_cell_free(grid, x - 1, cell_index) is False:
+            return('2', [x, cell_index])
+            break
+        # next, if its any row, and above cell is (empty && row 1) -> return row 1 index
+        elif is_cell_free(grid, x, cell_index) and x == 1:
+            return('3', [x - 1, cell_index])
+            break
