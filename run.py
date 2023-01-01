@@ -91,7 +91,12 @@ def move_grid_down(grid):
     for x in range(4):
         row = grid[x]
         for y in range(4):
-            if is_cell_free(grid, x, y) is False and x != 0:
+            current_cell = grid[x][y]
+            if x != 0 and current_cell == grid[x - 1][y]:
+                # merge cells
+                grid[x - 1][y] = current_cell + current_cell
+                current_cell = 0
+            elif is_cell_free(grid, x, y) is False and x != 0:
                 move_cell_up(grid, x, y)
 
     grid.reverse()
