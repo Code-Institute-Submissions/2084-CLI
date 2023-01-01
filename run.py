@@ -54,7 +54,7 @@ def get_columns_top_empty_cell(grid, row_index, cell_index):
             return([x, cell_index])
             break
         # next, if its any row, and above cell is (empty && row 1) -> return row 1 index
-        elif is_cell_free(grid, x, cell_index) and x == 1:
+        elif is_cell_free(grid, x - 1, cell_index) and x == 1:
             return([x - 1, cell_index])
             break
 
@@ -72,7 +72,12 @@ def move_grid_up(grid):
     for x in range(4):
         row = grid[x]
         for y in range(4):
-            if is_cell_free(grid, x, y) is False and x != 0:
+            current_cell = grid[x][y]
+            if x != 0 and current_cell == grid[x - 1][y]:
+                # merge cells
+                grid[x - 1][y] = current_cell + current_cell
+                current_cell = 0
+            elif is_cell_free(grid, x, y) is False and x != 0:
                 move_cell_up(grid, x, y)
 
     place_random_number(array)
@@ -88,13 +93,12 @@ def move_grid_down(grid):
         for y in range(4):
             if is_cell_free(grid, x, y) is False and x != 0:
                 move_cell_up(grid, x, y)
-    
+
     grid.reverse()
 
     place_random_number(array)
     for row in array:
         print(row[0], row[1], row[2], row[3])
-    
 
 
 while True:
