@@ -41,7 +41,7 @@ place_random_number(array)
 
 for row in array:
     print(row[0], row[1], row[2], row[3])
-print('---------')
+print('\n\nh = left\nj = down\nk = left\nl = right')
 
 # Move Up Functionality
 def get_columns_top_empty_cell(grid, row_index, cell_index):
@@ -151,16 +151,16 @@ while True:
 
     if char == 'h':
         print("\033c")
-        print('Move Up')
         move_grid_up(array)
+        print('\n\nh = left\nj = down\nk = left\nl = right')
     elif char == 'j':
         print("\033c")
-        print('Move Down')
         move_grid_down(array)
+        print('\n\nh = left\nj = down\nk = left\nl = right')
     elif char == 'k':
         print("\033c")
-        print('Move Left')
         move_grid_left(array)
+        print('\n\nh = left\nj = down\nk = left\nl = right')
     elif char == 'l':
         print("\033c")
-        print('Move Right')
+        print('\n\nh = left\nj = down\nk = left\nl = right')
