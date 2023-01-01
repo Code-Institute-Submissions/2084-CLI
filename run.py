@@ -1,4 +1,7 @@
 import random
+import getch
+
+print("\033c")
 
 def is_cell_free(grid, row, cell):
     return grid[row][cell] == 0
@@ -30,17 +33,17 @@ def place_random_number(grid):
 array = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
-    [0, 0, 2, 0],
+    [0, 0, 0, 0],
     [0, 0, 0, 0],
 ]
 
-# place_random_number(array)
+place_random_number(array)
 
 for row in array:
     print(row[0], row[1], row[2], row[3])
 print('---------')
 
-#Move Up Functionality
+# Move Up Functionality
 def get_columns_top_empty_cell(grid, row_index, cell_index):
     for x in reversed(range(row_index + 1)):
         if row_index == 0 and is_cell_free(grid, x, cell_index):
@@ -64,3 +67,48 @@ def move_cell_up(grid, row_index, cell_index):
 
     if row_index != target_index[0]:
         array[row_index][cell_index] = 0
+
+def move_grid_up(grid):
+    for x in range(4):
+        row = grid[x]
+        for y in range(4):
+            if is_cell_free(grid, x, y) is False and x != 0:
+                move_cell_up(grid, x, y)
+
+    place_random_number(array)
+    for row in array:
+        print(row[0], row[1], row[2], row[3])
+
+# Move Down Functionality
+def move_grid_down(grid):
+    grid.reverse()
+
+    for x in range(4):
+        row = grid[x]
+        for y in range(4):
+            if is_cell_free(grid, x, y) is False and x != 0:
+                move_cell_up(grid, x, y)
+    
+    grid.reverse()
+
+    place_random_number(array)
+    for row in array:
+        print(row[0], row[1], row[2], row[3])
+    
+
+
+while True:
+    char = getch.getch()
+
+    if char == 'h':
+        print("\033c")
+        print('Move Up')
+        move_grid_up(array)
+    elif char == 'j':
+        print("\033c")
+        print('Move Down')
+        move_grid_down(array)
+    elif char == 'k':
+        print('Move Left')
+    elif char == 'l':
+        print('Move Right')
