@@ -60,6 +60,7 @@ array = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
 ]
+
 place_random_number(array)
 for row in array:
     print(row[0], row[1], row[2], row[3])
@@ -68,39 +69,36 @@ print('\n\nh = left\nj = down\nk = left\nl = right')
 # Move Up Functionality
 def get_columns_top_empty_cell(grid, row_index, cell_index):
     for x in reversed(range(row_index + 1)):
-        if row_index == 0 and is_cell_free(grid, x, cell_index):
-            return([row_index, cell_index])
-            break
         # next, if its any row, and any cell above is full, return index before full cell
-        elif is_cell_free(grid, x - 1, cell_index) is False:
+        if is_cell_free(grid, x - 1, cell_index) is False:
             return([x, cell_index])
-            break
         # next, if its any row, and above cell is (empty && row 1) -> return row 1 index
         elif is_cell_free(grid, x - 1, cell_index) and x == 1:
             return([x - 1, cell_index])
-            break
 
 
 def move_cell_up(grid, row_index, cell_index):
     target_index = get_columns_top_empty_cell(grid, row_index, cell_index)
     cell_value = grid[row_index][cell_index]
 
-    array[int(target_index[0])][cell_index] = cell_value
+    grid[int(target_index[0])][cell_index] = cell_value
 
     if row_index != target_index[0]:
-        array[row_index][cell_index] = 0
+        grid[row_index][cell_index] = 0
+    return grid
 
 def move_grid_up(grid):
     for x in range(4):
         row = grid[x]
         for y in range(4):
             current_cell = grid[x][y]
-            if x != 0 and current_cell == grid[x - 1][y]:
-                # merge cells
+            if x != 0 and current_cell == grid[x - 1][y] and current_cell != 0:
+                # merge cells 
+                print(f'merge {current_cell} + {grid[x - 1][y]}')
                 grid[x - 1][y] = current_cell + current_cell
-                current_cell = 0
-            elif is_cell_free(grid, x, y) is False and x != 0:
-                move_cell_up(grid, x, y)
+                grid[x][y] = 0
+            elif is_cell_free(grid, x, y) is False and x != 0 and is_cell_free(grid, x - 1, y) is True:
+                grid = move_cell_up(grid, x, y)
 
     place_random_number(array)
     for row in array:
@@ -117,7 +115,7 @@ def move_grid_down(grid):
             if x != 0 and current_cell == grid[x - 1][y]:
                 # merge cells
                 grid[x - 1][y] = current_cell + current_cell
-                current_cell = 0
+                grid[x][y] = 0
             elif is_cell_free(grid, x, y) is False and x != 0:
                 move_cell_up(grid, x, y)
 
@@ -129,6 +127,7 @@ def move_grid_down(grid):
 
 # Move Left Functionality
 def get_rows_leftmost_empty_cell(grid, row_index, cell_index):
+    #import pdb; pdb.set_trace()
     for x in reversed(range(cell_index + 1)):
         if cell_index == 0 and is_cell_free(grid, row_index, cell_index):
             return([row_index, cell_index])
@@ -159,7 +158,7 @@ def move_grid_left(grid):
             if y != 0 and current_cell == grid[x][y - 1]:
                 # merge cells
                 grid[x][y - 1] = current_cell + current_cell
-                current_cell = 0
+                grid[x][y] = 0
             elif is_cell_free(grid, x, y) is False and y != 0:
                 move_cell_left(grid, x, y)
 
