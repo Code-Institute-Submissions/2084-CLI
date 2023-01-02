@@ -145,7 +145,46 @@ def move_grid_left(grid):
     for row in array:
         print(row[0], row[1], row[2], row[3])
 
+# Move Right Functionality
+def get_rows_rightmost_empty_cell(grid, row_index, cell_index):
+    for x in range(cell_index + 1):
+        if cell_index == 3 and is_cell_free(grid, row_index, cell_index):
+            return([row_index, cell_index])
+        # next, if its any cell, and any cell to the right is full, return index before full cell
+        elif is_cell_free(grid, row_index, x + 1) is False:
+            return([row_index, x])
+        # next, if its any row, and right cell is (empty && col 1) -> return col 1 index
+        elif is_cell_free(grid, row_index, x + 1) and x == 2:
+            return([row_index, x + 1])
 
+def move_cell_right(grid, row_index, cell_index):
+    target_index = get_rows_rightmost_empty_cell(grid, row_index, cell_index)
+    cell_value = grid[row_index][cell_index]
+
+    array[row_index][int(target_index[1])] = cell_value
+
+    if cell_index != target_index[0]:
+        array[row_index][cell_index] = 0
+
+def move_grid_right(grid):
+    for x in range(4):
+        row = grid[x]
+        for y in reversed(range(4)):
+            current_cell = grid[x][y]
+            # merge cells
+            if y != 3 and current_cell == grid[x][y + 1]:
+                grid[x][y + 1] = current_cell + current_cell
+                current_cell = 0
+            # move any full cell to the top
+            elif is_cell_free(grid, x, y) is False and y != 0:
+                move_cell_right(grid, x, y)
+
+    place_random_number(array)
+    for row in array:
+        print(row[0], row[1], row[2], row[3])
+
+
+# User presses h, j, k, l to play
 while True:
     char = getch.getch()
 
@@ -153,6 +192,8 @@ while True:
         print("\033c")
         move_grid_up(array)
         print('\n\nh = left\nj = down\nk = left\nl = right')
+        count_score(array)
+
     elif char == 'j':
         print("\033c")
         move_grid_down(array)
@@ -163,4 +204,5 @@ while True:
         print('\n\nh = left\nj = down\nk = left\nl = right')
     elif char == 'l':
         print("\033c")
+        move_grid_right(array)
         print('\n\nh = left\nj = down\nk = left\nl = right')
