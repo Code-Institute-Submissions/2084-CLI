@@ -43,15 +43,24 @@ def place_random_number(grid):
 
     array[random_cell[0]][random_cell[1]] = 2
 
+def check_if_grid_is_full(grid):
+    cells = []
+    i = 0
+    for x in grid:
+        for y in x:
+            cells.append(y)
+    if i in cells:
+        return False
+    else:
+        return True
+
 array = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
 ]
-
 place_random_number(array)
-
 for row in array:
     print(row[0], row[1], row[2], row[3])
 print('\n\nh = left\nj = down\nk = left\nl = right')
@@ -203,31 +212,66 @@ def count_score(grid):
         for y in range(4):
             cell_list.append(grid[x][y])
     
-    return(max(cell_list))
+    current_score = max(cell_list)
+    return(current_score)
 
+# Google sheets
 scores = SHEET.worksheet('scoreboard')
 data = scores.get_all_values()
 print('data:', data)
+
+def update_high_score(data):
+    print(f'Updating google sheet high score.. {data}')
+
+    scoreboard = SHEET.worksheet('scoreboard')
+    high_score = scoreboard.acell('A2').value
+    if int(data) > int(high_score):
+        scoreboard.update('A2', data)
+        print('New high score: ', data)
+    else:
+        print('Play again to try beat the high score')
+
 
 # User presses h, j, k, l to play
 while True:
     char = getch.getch()
 
     if char == 'h':
-        print("\033c")
-        move_grid_up(array)
-        print('\n\nh = left\nj = down\nk = left\nl = right')
-        count_score(array)
+        if check_if_grid_is_full(array) is False:
+            print("\033c")
+            move_grid_up(array)
+            print('\n\nh = left\nj = down\nk = left\nl = right')
+        elif check_if_grid_is_full(array) is True:
+            print('GAME OVER')
+            score = count_score(array)
+            update_high_score(score)
 
     elif char == 'j':
-        print("\033c")
-        move_grid_down(array)
-        print('\n\nh = left\nj = down\nk = left\nl = right')
+        if check_if_grid_is_full(array) is False:
+            print("\033c")
+            move_grid_down(array)
+            print('\n\nh = left\nj = down\nk = left\nl = right')
+        if check_if_grid_is_full(array) is True:
+            print('GAME OVER')
+            score = count_score(array)
+            update_high_score(score)
+
     elif char == 'k':
-        print("\033c")
-        move_grid_left(array)
-        print('\n\nh = left\nj = down\nk = left\nl = right')
+        if check_if_grid_is_full(array) is False:
+            print("\033c")
+            move_grid_left(array)
+            print('\n\nh = left\nj = down\nk = left\nl = right')
+        if check_if_grid_is_full(array) is True:
+            print('GAME OVER')
+            score = count_score(array)
+            update_high_score(score)
+
     elif char == 'l':
-        print("\033c")
-        move_grid_right(array)
-        print('\n\nh = left\nj = down\nk = left\nl = right')
+        if check_if_grid_is_full(array) is False:
+            print("\033c")
+            move_grid_right(array)
+            print('\n\nh = left\nj = down\nk = left\nl = right')
+        if check_if_grid_is_full(array) is True:
+            print('GAME OVER')
+            score = count_score(array)
+            update_high_score(score)
