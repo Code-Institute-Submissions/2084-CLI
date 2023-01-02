@@ -94,7 +94,6 @@ def move_grid_up(grid):
             current_cell = grid[x][y]
             if x != 0 and current_cell == grid[x - 1][y] and current_cell != 0:
                 # merge cells 
-                print(f'merge {current_cell} + {grid[x - 1][y]}')
                 grid[x - 1][y] = current_cell + current_cell
                 grid[x][y] = 0
             elif is_cell_free(grid, x, y) is False and x != 0 and is_cell_free(grid, x - 1, y) is True:
@@ -129,37 +128,38 @@ def move_grid_down(grid):
 def get_rows_leftmost_empty_cell(grid, row_index, cell_index):
     #import pdb; pdb.set_trace()
     for x in reversed(range(cell_index + 1)):
-        if cell_index == 0 and is_cell_free(grid, row_index, cell_index):
-            return([row_index, cell_index])
-            break
-        # next, if its any cell, and any cell to the left is full, return index before full cell
-        elif is_cell_free(grid, row_index, x - 1) is False:
+        # if its any cell, and any cell to the left is full, return index before full cell
+        if is_cell_free(grid, row_index, x - 1) is False:
             return([row_index, x])
-            break
         # next, if its any row, and left cell is (empty && col 1) -> return col 1 index
         elif is_cell_free(grid, row_index, x - 1) and x == 1:
             return([row_index, x - 1])
-            break
 
 def move_cell_left(grid, row_index, cell_index):
     target_index = get_rows_leftmost_empty_cell(grid, row_index, cell_index)
     cell_value = grid[row_index][cell_index]
 
-    array[row_index][int(target_index[1])] = cell_value
+    grid[row_index][int(target_index[1])] = cell_value
 
     if cell_index != target_index[0]:
-        array[row_index][cell_index] = 0
+        grid[row_index][cell_index] = 0
+    return grid
 
 def move_grid_left(grid):
     for x in range(4):
         row = grid[x]
         for y in range(4):
             current_cell = grid[x][y]
-            if y != 0 and current_cell == grid[x][y - 1]:
+            print([x], [y])
+            print(current_cell, grid[x][y - 1])
+            if y == 0:
+                print('First Row')
+            if y != 0 and current_cell == grid[x][y - 1] and current_cell != 0:
                 # merge cells
+                print(f'merge {current_cell} + {grid[x][y - 1]}')
                 grid[x][y - 1] = current_cell + current_cell
                 grid[x][y] = 0
-            elif is_cell_free(grid, x, y) is False and y != 0:
+            elif is_cell_free(grid, x, y) is False and y != 0 and is_cell_free(grid, x, y - 1) is True:
                 move_cell_left(grid, x, y)
 
     place_random_number(array)
