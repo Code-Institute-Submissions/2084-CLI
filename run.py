@@ -1,5 +1,18 @@
 import random
 import getch
+import gspread
+from google.oauth2.service_account import Credentials
+
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+    ]
+
+CREDS = Credentials.from_service_account_file('creds.json')
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open('2048')
 
 print("\033c")
 
@@ -183,6 +196,18 @@ def move_grid_right(grid):
     for row in array:
         print(row[0], row[1], row[2], row[3])
 
+# SCOREBOARD
+def count_score(grid):
+    cell_list = []
+    for x in range(4):
+        for y in range(4):
+            cell_list.append(grid[x][y])
+    
+    return(max(cell_list))
+
+scores = SHEET.worksheet('scoreboard')
+data = scores.get_all_values()
+print('data:', data)
 
 # User presses h, j, k, l to play
 while True:
