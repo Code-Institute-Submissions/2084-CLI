@@ -64,7 +64,7 @@ array = [
 place_random_number(array)
 for row in array:
     print(row[0], row[1], row[2], row[3])
-print('\n\nh = left\nj = down\nk = left\nl = right')
+print('\n\nh = up\nj = down\nk = left\nl = right')
 
 # Move Up Functionality
 def get_columns_top_empty_cell(grid, row_index, cell_index):
@@ -126,7 +126,6 @@ def move_grid_down(grid):
 
 # Move Left Functionality
 def get_rows_leftmost_empty_cell(grid, row_index, cell_index):
-    #import pdb; pdb.set_trace()
     for x in reversed(range(cell_index + 1)):
         # if its any cell, and any cell to the left is full, return index before full cell
         if is_cell_free(grid, row_index, x - 1) is False:
@@ -141,22 +140,21 @@ def move_cell_left(grid, row_index, cell_index):
 
     grid[row_index][int(target_index[1])] = cell_value
 
-    if cell_index != target_index[0]:
+    if cell_index != target_index[1]:
         grid[row_index][cell_index] = 0
     return grid
 
 def move_grid_left(grid):
     for x in range(4):
-        row = grid[x]
         for y in range(4):
             current_cell = grid[x][y]
             if y == 0:
                 continue
-            if y != 0 and current_cell == grid[x][y - 1] and current_cell != 0:
+            if current_cell == grid[x][y - 1] and current_cell != 0:
                 # merge cells
                 grid[x][y - 1] = current_cell + current_cell
                 grid[x][y] = 0
-            elif is_cell_free(grid, x, y) is False and y != 0 and is_cell_free(grid, x, y - 1) is True:
+            elif is_cell_free(grid, x, y) is False and is_cell_free(grid, x, y - 1) is True:
                 move_cell_left(grid, x, y)
 
     place_random_number(array)
@@ -187,7 +185,6 @@ def get_rows_rightmost_empty_cell(grid, row_index, cell_index):
 
 def move_cell_right(grid, row_index, cell_index):
     target_index = get_rows_rightmost_empty_cell(grid, row_index, cell_index)
-    print('Target Index: ', target_index)
     cell_value = grid[row_index][cell_index]
 
     grid[row_index][int(target_index[1])] = cell_value
@@ -198,18 +195,17 @@ def move_cell_right(grid, row_index, cell_index):
 
 def move_grid_right(grid):
     for x in range(4):
-        row = grid[x]
         for y in reversed(range(4)):
             current_cell = grid[x][y]
             if y == 3:
                 continue
-            print([x], [y])
-            print(current_cell, grid[x][y + 1])
+            #print([x], [y])
+            #print(current_cell, grid[x][y + 1])
             # merge cells
             if current_cell == grid[x][y + 1] and current_cell != 0:
-                print(f'merge {current_cell} + {grid[x][y + 1]}')
+                #print(f'merge {current_cell} + {grid[x][y + 1]}')
                 grid[x][y + 1] = current_cell + current_cell
-                current_cell = 0
+                grid[x][y] = 0
             # move any full cell to the right
             elif is_cell_free(grid, x, y) is False and is_cell_free(grid, x, y + 1) is True:
                 move_cell_right(grid, x, y)
@@ -253,7 +249,7 @@ while True:
         if check_if_grid_is_full(array) is False:
             print("\033c")
             move_grid_up(array)
-            print('\n\nh = left\nj = down\nk = left\nl = right')
+            print('\n\nh = up\nj = down\nk = left\nl = right')
         elif check_if_grid_is_full(array) is True:
             print('GAME OVER')
             score = count_score(array)
@@ -263,7 +259,7 @@ while True:
         if check_if_grid_is_full(array) is False:
             print("\033c")
             move_grid_down(array)
-            print('\n\nh = left\nj = down\nk = left\nl = right')
+            print('\n\nh = up\nj = down\nk = left\nl = right')
         if check_if_grid_is_full(array) is True:
             print('GAME OVER')
             score = count_score(array)
@@ -273,7 +269,7 @@ while True:
         if check_if_grid_is_full(array) is False:
             print("\033c")
             move_grid_left(array)
-            print('\n\nh = left\nj = down\nk = left\nl = right')
+            print('\n\nh = up\nj = down\nk = left\nl = right')
         if check_if_grid_is_full(array) is True:
             print('GAME OVER')
             score = count_score(array)
@@ -283,7 +279,7 @@ while True:
         if check_if_grid_is_full(array) is False:
             print("\033c")
             move_grid_right(array)
-            print('\n\nh = left\nj = down\nk = left\nl = right')
+            print('\n\nh = up\nj = down\nk = left\nl = right')
         if check_if_grid_is_full(array) is True:
             print('GAME OVER')
             score = count_score(array)
