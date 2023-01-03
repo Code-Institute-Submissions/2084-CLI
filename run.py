@@ -150,13 +150,10 @@ def move_grid_left(grid):
         row = grid[x]
         for y in range(4):
             current_cell = grid[x][y]
-            print([x], [y])
-            print(current_cell, grid[x][y - 1])
             if y == 0:
-                print('First Row')
+                continue
             if y != 0 and current_cell == grid[x][y - 1] and current_cell != 0:
                 # merge cells
-                print(f'merge {current_cell} + {grid[x][y - 1]}')
                 grid[x][y - 1] = current_cell + current_cell
                 grid[x][y] = 0
             elif is_cell_free(grid, x, y) is False and y != 0 and is_cell_free(grid, x, y - 1) is True:
@@ -168,36 +165,53 @@ def move_grid_left(grid):
 
 # Move Right Functionality
 def get_rows_rightmost_empty_cell(grid, row_index, cell_index):
-    for x in range(cell_index + 1):
-        if cell_index == 3 and is_cell_free(grid, row_index, cell_index):
-            return([row_index, cell_index])
-        # next, if its any cell, and any cell to the right is full, return index before full cell
-        elif is_cell_free(grid, row_index, x + 1) is False:
-            return([row_index, x])
-        # next, if its any row, and right cell is (empty && col 1) -> return col 1 index
-        elif is_cell_free(grid, row_index, x + 1) and x == 2:
-            return([row_index, x + 1])
+    for x in reversed(range(cell_index + 1)):
+        # check column 3 with one empty ceel to right
+        if x == 2 and grid[row_index][x + 1] == 0:
+            return[row_index,x + 1]
+        # check column 2 with two empty cells to right
+        elif x == 1 and grid[row_index][x + 1] == 0 and grid[row_index][x + 2] == 0:
+            return[row_index,x + 2]
+        # check column 1 with three empty cells to right
+        elif x == 0 and grid[row_index][x + 1] == 0 and grid[row_index][x + 2] == 0  and grid[row_index][x + 3] == 0:
+            return[row_index,x + 3]
+        # check column 2 with one empty cells to right
+        elif x == 1 and  grid[row_index][x + 1] == 0 and grid[row_index][x + 2] != 0:
+            return[row_index,x + 1]
+        # check column 1 with two empty cells to right
+        elif x == 0 and  grid[row_index][x + 1] == 0 and grid[row_index][x + 2] == 0  and grid[row_index][x + 3] != 0:
+            return[row_index,x + 2]
+        # check column 1 with one empty cell to right
+        elif x == 0 and  grid[row_index][x + 1] == 0 and grid[row_index][x + 2] != 0  and grid[row_index][x + 3] != 0:
+            return[row_index, x + 1]
 
 def move_cell_right(grid, row_index, cell_index):
     target_index = get_rows_rightmost_empty_cell(grid, row_index, cell_index)
+    print('Target Index: ', target_index)
     cell_value = grid[row_index][cell_index]
 
-    array[row_index][int(target_index[1])] = cell_value
+    grid[row_index][int(target_index[1])] = cell_value
 
     if cell_index != target_index[0]:
-        array[row_index][cell_index] = 0
+        grid[row_index][cell_index] = 0
+    return grid
 
 def move_grid_right(grid):
     for x in range(4):
         row = grid[x]
         for y in reversed(range(4)):
             current_cell = grid[x][y]
+            if y == 3:
+                continue
+            print([x], [y])
+            print(current_cell, grid[x][y + 1])
             # merge cells
-            if y != 3 and current_cell == grid[x][y + 1]:
+            if current_cell == grid[x][y + 1] and current_cell != 0:
+                print(f'merge {current_cell} + {grid[x][y + 1]}')
                 grid[x][y + 1] = current_cell + current_cell
                 current_cell = 0
-            # move any full cell to the top
-            elif is_cell_free(grid, x, y) is False and y != 0:
+            # move any full cell to the right
+            elif is_cell_free(grid, x, y) is False and is_cell_free(grid, x, y + 1) is True:
                 move_cell_right(grid, x, y)
 
     place_random_number(array)
@@ -274,3 +288,4 @@ while True:
             print('GAME OVER')
             score = count_score(array)
             update_high_score(score)
+
