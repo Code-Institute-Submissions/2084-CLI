@@ -199,8 +199,6 @@ def move_grid_right(grid):
             current_cell = grid[x][y]
             if y == 3:
                 continue
-            #print([x], [y])
-            #print(current_cell, grid[x][y + 1])
             # merge cells
             if current_cell == grid[x][y + 1] and current_cell != 0:
                 #print(f'merge {current_cell} + {grid[x][y + 1]}')
@@ -216,6 +214,7 @@ def move_grid_right(grid):
 
 # SCOREBOARD
 def count_score(grid):
+    '''It returns the highest number on the board'''
     cell_list = []
     for x in range(4):
         for y in range(4):
@@ -224,16 +223,17 @@ def count_score(grid):
     current_score = max(cell_list)
     return(current_score)
 
-# Google sheets
+# End Game & Update Leader Board
 scores = SHEET.worksheet('scoreboard')
 data = scores.get_all_values()
-print('data:', data)
 
 def update_high_score(data):
-    print(f'Updating google sheet high score.. {data}')
+    '''It takes the highest number on the board, and updates google sheet if its a new high score'''
 
     scoreboard = SHEET.worksheet('scoreboard')
+
     high_score = scoreboard.acell('A2').value
+
     if int(data) > int(high_score):
         scoreboard.update('A2', data)
         print('New high score: ', data)
