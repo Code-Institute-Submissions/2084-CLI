@@ -126,6 +126,7 @@ def move_grid_down(grid):
 
 # Move Left Functionality
 def get_rows_leftmost_empty_cell(grid, row_index, cell_index):
+    '''It returns the leftmost cell in a row whos value equals 0'''
     for x in reversed(range(cell_index + 1)):
         # if its any cell, and any cell to the left is full, return index before full cell
         if is_cell_free(grid, row_index, x - 1) is False:
@@ -135,6 +136,7 @@ def get_rows_leftmost_empty_cell(grid, row_index, cell_index):
             return([row_index, x - 1])
 
 def move_cell_left(grid, row_index, cell_index):
+    '''It moves an individual cell left to the leftmost empty cell'''
     target_index = get_rows_leftmost_empty_cell(grid, row_index, cell_index)
     cell_value = grid[row_index][cell_index]
 
@@ -145,6 +147,7 @@ def move_cell_left(grid, row_index, cell_index):
     return grid
 
 def move_grid_left(grid):
+    '''It moves each cell on the board left'''
     for x in range(4):
         for y in range(4):
             current_cell = grid[x][y]
@@ -163,6 +166,7 @@ def move_grid_left(grid):
 
 # Move Right Functionality
 def get_rows_rightmost_empty_cell(grid, row_index, cell_index):
+    '''It returns the rightmost cell in a row whos value equals 0'''
     for x in reversed(range(cell_index + 1)):
         # check column 3 with one empty ceel to right
         if x == 2 and grid[row_index][x + 1] == 0:
@@ -184,6 +188,7 @@ def get_rows_rightmost_empty_cell(grid, row_index, cell_index):
             return[row_index, x + 1]
 
 def move_cell_right(grid, row_index, cell_index):
+    '''It moves an individual cell right to the rightmost empty cell'''
     target_index = get_rows_rightmost_empty_cell(grid, row_index, cell_index)
     cell_value = grid[row_index][cell_index]
 
@@ -194,6 +199,7 @@ def move_cell_right(grid, row_index, cell_index):
     return grid
 
 def move_grid_right(grid):
+    '''It moves each cell on the board right'''
     for x in range(4):
         for y in reversed(range(4)):
             current_cell = grid[x][y]
