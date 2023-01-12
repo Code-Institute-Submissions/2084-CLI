@@ -134,14 +134,20 @@ def move_grid_down(grid):
     grid.reverse()
 
     for x in range(4):
+        for y in range(4):
+            cell = grid[x][y]
+            if (cell != 0):
+               for n in range(x + 1, 4):
+                if (cell != 0 and cell != grid[n][y] and grid[n][y] != 0):
+                    continue
+                elif (cell == grid[n][y]):
+                    grid[x][y] = cell + cell
+                    grid[n][y] = 0
+
+    for x in range(4):
         row = grid[x]
         for y in range(4):
-            current_cell = grid[x][y]
-            if x != 0 and current_cell == grid[x - 1][y]:
-                # merge cells
-                grid[x - 1][y] = current_cell + current_cell
-                grid[x][y] = 0
-            elif is_cell_free(grid, x, y) is False and x != 0:
+            if is_cell_free(grid, x, y) is False and x != 0:
                 move_cell_up(grid, x, y)
 
     grid.reverse()
