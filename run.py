@@ -22,7 +22,7 @@ def is_cell_free(grid, row, cell):
 def get_free_cells(grid):
     free_cells = []
     row_count = -1
-    
+
     for row in grid:
         row_count = row_count + 1
         index_count = -1
@@ -69,7 +69,7 @@ print('\n\nh = up\nj = down\nk = left\nl = right')
 # Move Up Functionality
 def get_columns_top_empty_cell(grid, row_index, cell_index):
     for x in reversed(range(row_index + 1)):
-        # next, if its any row, and any cell above is full, return index before full cell
+        # If its any row, and any cell above is full, return index before full cell
         if is_cell_free(grid, x - 1, cell_index) is False:
             return([x, cell_index])
         # next, if its any row, and above cell is (empty && row 1) -> return row 1 index
@@ -78,6 +78,7 @@ def get_columns_top_empty_cell(grid, row_index, cell_index):
 
 
 def move_cell_up(grid, row_index, cell_index):
+    '''It moves the current cell to the highest empty cell'''
     target_index = get_columns_top_empty_cell(grid, row_index, cell_index)
     cell_value = grid[row_index][cell_index]
 
@@ -87,13 +88,21 @@ def move_cell_up(grid, row_index, cell_index):
         grid[row_index][cell_index] = 0
     return grid
 
+def merge_cells(grid, cell, i, j):
+    for row in range(1, 4):
+        if (cell and cell != grid[row][j] and grid[row][j]):
+            continue
+        elif (cell == grid[row][j]):
+            array[i][j] = cell + grid[row][j]
+            array[row][j] = 0
+
 def move_grid_up(grid):
     for x in range(4):
         row = grid[x]
         for y in range(4):
             current_cell = grid[x][y]
             if x != 0 and current_cell == grid[x - 1][y] and current_cell != 0:
-                # merge cells 
+                # merge cells
                 grid[x - 1][y] = current_cell + current_cell
                 grid[x][y] = 0
             elif is_cell_free(grid, x, y) is False and x != 0 and is_cell_free(grid, x - 1, y) is True:
@@ -225,7 +234,7 @@ def count_score(grid):
     for x in range(4):
         for y in range(4):
             cell_list.append(grid[x][y])
-    
+
     current_score = max(cell_list)
     return(current_score)
 
