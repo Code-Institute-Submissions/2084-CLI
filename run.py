@@ -17,9 +17,11 @@ SHEET = GSPREAD_CLIENT.open('2048')
 print("\033c")
 
 def is_cell_free(grid, row, cell):
+    '''It returns true if an index is equal to 0'''
     return grid[row][cell] == 0
 
 def get_free_cells(grid):
+    '''It gets a list of indexes in the grid which equal 0'''
     free_cells = []
     row_count = -1
 
@@ -33,12 +35,14 @@ def get_free_cells(grid):
     return(free_cells)
 
 def get_random_free_cell(grid):
+    '''It gets a random index from the grid'''
     free_cells = get_free_cells(grid)
     random_free_cell = random.choice(free_cells)
 
     return(random_free_cell)
 
 def place_random_number(grid):
+    '''It places a 2 on a random index on the grid'''
     random_cell = get_random_free_cell(grid)
 
     array[random_cell[0]][random_cell[1]] = 2
@@ -68,6 +72,8 @@ print('\n\nh = up\nj = down\nk = left\nl = right')
 
 # Move Up Functionality
 def get_columns_top_empty_cell(grid, row_index, cell_index):
+    '''It returns the topmost cell in a column whos value equals 0'''
+
     for x in reversed(range(row_index + 1)):
         # If its any row, and any cell above is full, return index before full cell
         if is_cell_free(grid, x - 1, cell_index) is False:
@@ -88,24 +94,34 @@ def move_cell_up(grid, row_index, cell_index):
         grid[row_index][cell_index] = 0
     return grid
 
+# !!!This function is not in use yet!!!
 def merge_cells(grid, cell, i, j):
+    '''It will contain merge cells logic and reduce nested looping in move_grid_up'''
     for row in range(1, 4):
-        if (cell and cell != grid[row][j] and grid[row][j]):
+        if (cell != 0 and cell != grid[row][j] and grid[row][j]):
             continue
         elif (cell == grid[row][j]):
             array[i][j] = cell + grid[row][j]
             array[row][j] = 0
 
 def move_grid_up(grid):
+    '''It moves each cell on the board up'''
     for x in range(4):
-        row = grid[x]
         for y in range(4):
-            current_cell = grid[x][y]
-            if x != 0 and current_cell == grid[x - 1][y] and current_cell != 0:
-                # merge cells
-                grid[x - 1][y] = current_cell + current_cell
-                grid[x][y] = 0
-            elif is_cell_free(grid, x, y) is False and x != 0 and is_cell_free(grid, x - 1, y) is True:
+            cell = grid[x][y]
+            if (cell != 0):
+               for n in range(x + 1, 4):
+                if (cell != 0 and cell != grid[n][y] and grid[n][y] != 0):
+                    continue
+                elif (cell == grid[n][y]):
+                    grid[x][y] = cell + cell
+                    grid[n][y] = 0
+
+
+
+    for x in range(4):
+        for y in range(4):
+            if is_cell_free(grid, x, y) is False and x != 0 and is_cell_free(grid, x - 1, y) is True:
                 grid = move_cell_up(grid, x, y)
 
     place_random_number(array)
@@ -114,6 +130,7 @@ def move_grid_up(grid):
 
 # Move Down Functionality
 def move_grid_down(grid):
+    '''It moves each cell on the board down'''
     grid.reverse()
 
     for x in range(4):
