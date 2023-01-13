@@ -1,10 +1,51 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+This is an implementaion of the popular 2048 game. This version is a command line interface built in Python.
 
-Welcome USER_NAME,
+## How To Play
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+* The user must press h,j,k,l to move up/down/left/right
+* The aim is to achieve the highest number possible by adding numbers together
+* Numbers can only be added if:
+  - they are the same number and
+  - they are adjacent cells or separated by only 0s
 
-## Reminders
+## Features
+
+# The board
+The game contains a 4 X 4 'grid'. At the beginning of the game, the grid will contain a single cell with the value of '2'. Each time the player moves, another 2 will appear on the grid. 
+
+  ![Grid](/assets/images/grid.png)
+
+# Directional Buttons
+The CLI contains information on which buttons will move the board in each direction
+
+  ![Grid](/assets/images/buttons.png)
+
+# Game Over Message
+When the board is full and can no longer move, the message 'Game Over' will appear. If the users has achieved a new high score, the leaderboard which is stored in Google Sheets will be updated.
+
+  ![Grid](/assets/images/game-over.png)
+
+
+## Unfixed Bugs
+
+1. Move left/right merge functionality issue
+  - cell merge when moving left and right is not fluid
+  - only the first cells which are directly beside each other will merge
+  - the buttons must be pressed multiple times to merge all cells
+
+## Future Features to Implement
+
+1. Create a 'User Name' input and save name to the Leaderboard if user reaches a high score
+2. Style grid to have boarders between each cell
+
+# Testing
+
+Testing of functions achieved using 'unittest' library. 
+
+
+
+
+
 
 * Your code must be placed in the `run.py` file
 * Your dependencies must be placed in the `requirements.txt` file
