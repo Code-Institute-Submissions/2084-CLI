@@ -71,6 +71,7 @@ for row in array:
 print('\n\nh = up\nj = down\nk = left\nl = right')
 
 # Move Up Functionality
+
 def get_columns_top_empty_cell(grid, row_index, cell_index):
     '''It returns the topmost cell in a column whos value equals 0'''
 
@@ -106,6 +107,7 @@ def merge_cells(grid, cell, i, j):
 
 def move_grid_up(grid):
     '''It moves each cell on the board up'''
+    # Loop over the array and merge a cell if the same cell is below it
     for x in range(4):
         for y in range(4):
             cell = grid[x][y]
@@ -117,8 +119,7 @@ def move_grid_up(grid):
                     grid[x][y] = cell + cell
                     grid[n][y] = 0
 
-
-
+    # Move all cells up to the highest 'empty' cell
     for x in range(4):
         for y in range(4):
             if is_cell_free(grid, x, y) is False and x != 0 and is_cell_free(grid, x - 1, y) is True:
@@ -129,10 +130,12 @@ def move_grid_up(grid):
         print(row[0], row[1], row[2], row[3])
 
 # Move Down Functionality
+
 def move_grid_down(grid):
     '''It moves each cell on the board down'''
     grid.reverse()
 
+    # Loop over the array and merge a cell if the same cell is above it
     for x in range(4):
         for y in range(4):
             cell = grid[x][y]
@@ -144,6 +147,7 @@ def move_grid_down(grid):
                     grid[x][y] = cell + cell
                     grid[n][y] = 0
 
+    # Move all cells down to the lowest 'empty' cell
     for x in range(4):
         row = grid[x]
         for y in range(4):
@@ -157,6 +161,7 @@ def move_grid_down(grid):
         print(row[0], row[1], row[2], row[3])
 
 # Move Left Functionality
+
 def get_rows_leftmost_empty_cell(grid, row_index, cell_index):
     '''It returns the leftmost cell in a row whos value equals 0'''
     for x in reversed(range(cell_index + 1)):
@@ -197,6 +202,7 @@ def move_grid_left(grid):
         print(row[0], row[1], row[2], row[3])
 
 # Move Right Functionality
+
 def get_rows_rightmost_empty_cell(grid, row_index, cell_index):
     '''It returns the rightmost cell in a row whos value equals 0'''
     for x in reversed(range(cell_index + 1)):
@@ -289,7 +295,7 @@ while True:
             move_grid_up(array)
             print('\n\nh = up\nj = down\nk = left\nl = right')
         elif check_if_grid_is_full(array) is True:
-            print('GAME OVER')
+            print('\nGAME OVER')
             score = count_score(array)
             update_high_score(score)
 
@@ -299,7 +305,7 @@ while True:
             move_grid_down(array)
             print('\n\nh = up\nj = down\nk = left\nl = right')
         if check_if_grid_is_full(array) is True:
-            print('GAME OVER')
+            print('\nGAME OVER')
             score = count_score(array)
             update_high_score(score)
 
@@ -309,7 +315,7 @@ while True:
             move_grid_left(array)
             print('\n\nh = up\nj = down\nk = left\nl = right')
         if check_if_grid_is_full(array) is True:
-            print('GAME OVER')
+            print('\nGAME OVER')
             score = count_score(array)
             update_high_score(score)
 
@@ -319,7 +325,7 @@ while True:
             move_grid_right(array)
             print('\n\nh = up\nj = down\nk = left\nl = right')
         if check_if_grid_is_full(array) is True:
-            print('GAME OVER')
+            print('\nGAME OVER')
             score = count_score(array)
             update_high_score(score)
 
