@@ -1,5 +1,9 @@
 This is an implementaion of the popular 2048 game. This version is a command line interface built in Python.
 
+The goal of 2048 is to create the highest number possible, by moving a grid of numbers. Numbers are added to the number beside them IF:
+- the number beside them is the same number
+- the number is not separated by any number other than zero
+
 ## How To Play
 
 * The user must press h,j,k,l to move up/down/left/right
@@ -36,16 +40,14 @@ When the board is full and can no longer move, the message 'Game Over' will appe
 ## Future Features to Implement
 
 1. Create a 'User Name' input and save name to the Leaderboard if user reaches a high score
+
 2. Style grid to have boarders between each cell
 
 # Testing
 
 Testing of functions achieved using 'unittest' library. 
 
-
-
-
-
+## Deployment
 
 * Your code must be placed in the `run.py` file
 * Your dependencies must be placed in the `requirements.txt` file
@@ -63,10 +65,3 @@ You must then create a _Config Var_ called `PORT`. Set this to `8000`
 If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
 
 Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
------
-Happy coding!
